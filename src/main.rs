@@ -31,12 +31,14 @@ fn main() -> Result<(), String> {
         .create_texture(
             sdl2::pixels::PixelFormatEnum::RGB24,
             sdl2::render::TextureAccess::Static,
-            1,
+            3,
             1,
         )
         .unwrap();
 
-    texture.update(None, &[255, 255, 255], 3).unwrap();
+    texture
+        .update(None, &[255, 255, 255, 0, 0, 0, 255, 255, 255], 9)
+        .unwrap();
 
     canvas.copy(&texture, None, None)?;
     canvas.present();
@@ -50,6 +52,16 @@ fn main() -> Result<(), String> {
                     keycode: Some(Keycode::Escape),
                     ..
                 } => break 'main,
+                Event::KeyDown {
+                    keycode: Some(Keycode::A),
+                    ..
+                } => {
+                    texture
+                        .update(None, &[0, 0, 0, 255, 255, 255, 0, 0, 0], 9)
+                        .unwrap();
+                    canvas.copy(&texture, None, None)?;
+                    canvas.present();
+                }
                 _ => (),
             }
         }
